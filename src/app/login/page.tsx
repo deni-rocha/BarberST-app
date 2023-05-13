@@ -24,8 +24,30 @@ export default function Home() {
           alt="logo-popUp"
           className="absolute -top-3 -left-2"
         />
-        <div className="w-[280px] h-[280px] border border-black mx-auto">
-          <h2>Bem-vindo</h2>
+        <div className="w-[300px] h-[300px] flex flex-col gap-8 items-center py-4 mx-auto">
+          <h2 className="text-xl font-bold text-bgPrimary">Entrar</h2>
+
+          <section className="w-[255px] space-y-4 ">
+            <input
+              type="text"
+              placeholder="e-mail"
+              className="w-full h-[40px] rounded-3xl pl-6 outline-none drop-shadow-md placeholder:opacity-70"
+            />
+            <div className="flex flex-col">
+              <input
+                placeholder="senha"
+                type="password"
+                className="w-full h-[40px] rounded-3xl pl-6 outline-none drop-shadow-md placeholder:opacity-70"
+              />
+              <p className="text-bgSecondary self-end text-sm mt-2 mr-2 cursor-pointer">
+                esqueceu a senha?
+              </p>
+            </div>
+          </section>
+
+          <button className="w-[255px] h-[40px] bg-bgPrimary rounded-3xl outline-none text-white">
+            Login
+          </button>
         </div>
       </div>
     </div>
