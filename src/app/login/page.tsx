@@ -1,7 +1,23 @@
+"use client";
+
 import Image from "next/image";
 import BaberStLogo from "@/public/login/barberst-logo.svg";
 import RedLogo from "@/public/login/Red Logo.png";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useAuth } from "@/Context/AuthContext";
+
 export default function Home() {
+  const [form, setForm] = useState({ email: "", senha: "" });
+  const { login } = useAuth();
+  function inputChange(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  }
+
+  async function submit() {
+    const res = await login!(form.email, form.senha);
+    console.log(res);
+  }
   return (
     <div className="absolute w-full h-full p-4">
       <header className="flex justify-between mt-12">
@@ -29,12 +45,17 @@ export default function Home() {
 
           <section className="w-[255px] space-y-4 ">
             <input
+              name="email"
+              value={form.email}
+              onChange={inputChange}
               type="text"
               placeholder="e-mail"
               className="w-full h-[40px] rounded-3xl pl-6 outline-none drop-shadow-md placeholder:opacity-70"
             />
             <div className="flex flex-col">
               <input
+                onChange={inputChange}
+                name="senha"
                 placeholder="senha"
                 type="password"
                 className="w-full h-[40px] rounded-3xl pl-6 outline-none drop-shadow-md placeholder:opacity-70"
@@ -45,7 +66,11 @@ export default function Home() {
             </div>
           </section>
 
-          <button className="w-[255px] h-[40px] bg-bgPrimary rounded-3xl outline-none text-white">
+          <button
+            type="submit"
+            onClick={submit}
+            className="w-[255px] h-[40px] bg-bgPrimary rounded-3xl outline-none text-white"
+          >
             Login
           </button>
         </div>
