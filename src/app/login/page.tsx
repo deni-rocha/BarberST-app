@@ -3,11 +3,14 @@
 import Image from "next/image";
 import BaberStLogo from "@/public/login/barberst-logo.svg";
 import RedLogo from "@/public/login/Red Logo.png";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useAuth } from "@/Context/AuthContext";
+import { BsFillEyeSlashFill } from "react-icons/bs";
+import { IoEyeSharp } from "react-icons/io5";
 
 export default function Home() {
   const [form, setForm] = useState({ email: "", senha: "" });
+  const [hiddenPass, setHidden] = useState(true);
   const { login } = useAuth();
   function inputChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -20,7 +23,7 @@ export default function Home() {
   }
   return (
     <div className="absolute w-full h-full p-4">
-      <header className="flex justify-between mt-12">
+      <header className="flex justify-between mt-12 md:justify-around">
         <section className="w-[240px] h-[100px]">
           <Image src={BaberStLogo} alt="logo-barberSt" />
         </section>
@@ -52,14 +55,20 @@ export default function Home() {
               placeholder="e-mail"
               className="w-full h-[40px] rounded-3xl pl-6 outline-none drop-shadow-md placeholder:opacity-70"
             />
-            <div className="flex flex-col">
+            <div className="flex flex-col relative">
               <input
                 onChange={inputChange}
                 name="senha"
                 placeholder="senha"
-                type="password"
+                type={hiddenPass ? "password" : "text"}
                 className="w-full h-[40px] rounded-3xl pl-6 outline-none drop-shadow-md placeholder:opacity-70"
               />
+              <div
+                className="absolute top-3 self-end mr-3 opacity-50 cursor-pointer"
+                onClick={() => setHidden(!hiddenPass)}
+              >
+                {hiddenPass ? <BsFillEyeSlashFill /> : <IoEyeSharp />}
+              </div>
               <p className="text-bgSecondary self-end text-sm mt-2 mr-2 cursor-pointer">
                 esqueceu a senha?
               </p>
