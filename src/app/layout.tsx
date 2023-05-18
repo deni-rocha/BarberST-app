@@ -1,7 +1,7 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
+"use client";
 
-const inter = Inter({ subsets: ["latin"] });
+import "./globals.css";
+import { ProvideAuth } from "@/Context/AuthContext";
 
 export const metadata = {
   title: "Barber-St",
@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <link rel="shortcut icon" href="/icons/icon.svg" type="image/x-icon" />
-      <body className={inter.className}>{children}</body>
+      <ProvideAuth>
+        <body>{children}</body>
+      </ProvideAuth>
     </html>
   );
 }
