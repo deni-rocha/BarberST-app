@@ -1,13 +1,15 @@
 "use client";
 
 import axios, { AxiosError } from "axios";
-import { getCookie, removeCookies, setCookie } from "cookies-next";
+import { getCookie, deleteCookie, setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useContext, createContext } from "react";
 
 type authType = {
-  msg: string;
+  message: string;
   token: null | string;
   usuario: null | User;
+  loading?: boolean;
   register?: (
     email: string,
     fullname: string,
@@ -29,7 +31,7 @@ type authType = {
 };
 
 const initialAuth: authType = {
-  msg: "",
+  message: "",
   token: null,
   usuario: null,
 };
@@ -60,6 +62,10 @@ function useProvideAuth() {
   const [usuario, setUsuario] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  const [loading, setLoading] = useState(true); // para exibir página de carregamento
+
+  const router = useRouter();
+
   useEffect(() => {
     const initialAuthUser = getCookie("user");
     const initialAuthToken = getCookie("token");
@@ -75,6 +81,22 @@ function useProvideAuth() {
     setCookie("user", usuario);
     setCookie("token", token);
   }, [usuario, token]);
+
+  // mudar rota para login caso o usuário não exista
+  useEffect(() => {
+    // tempo de 500ms antes de atualizar a tela, para evitar conflito de componentes mudando bruscamente de tela
+    setTimeout(() => {
+      setLoading(false);
+    }, 600);
+
+    if (!usuario) {
+      // vai para a página de login caso não haja um usuário
+      router.push("/login");
+    } else {
+      // caso exista usuário vai para página principal
+      router.push("/");
+    }
+  }, [usuario, router]);
 
   const register = async (
     email: string,
@@ -99,7 +121,7 @@ function useProvideAuth() {
       setUsuario(usuario);
       return {
         success: true,
-        message: registerResponse.msg,
+        message: registerResponse.message,
       };
     } catch (err) {
       const errResponse = (err as any).response.data;
@@ -145,16 +167,17 @@ function useProvideAuth() {
       setToken(token);
       return {
         success: true,
-        message: loginResponse.msg,
+        message: loginResponse.message,
       };
     } catch (err) {
-      const error = err as AxiosError<{ msg: string }>;
+      const error = err as AxiosError<{ message: string }>;
 
-      const msg = error.response?.data.msg;
+      const message = error.response?.data.message;
 
+      console.log(error);
       return {
         success: false,
-        message: msg as string,
+        message: message as string,
       };
     }
   };
@@ -162,17 +185,18 @@ function useProvideAuth() {
   const logout = () => {
     setUsuario(null);
     setToken(null);
-    removeCookies("user");
-    removeCookies("token");
+    deleteCookie("user");
+    deleteCookie("token");
   };
 
   // Retorna o objeto de autenticação e os métodos
   return {
-    msg: "",
+    message: "",
     token,
     usuario,
     register,
     login,
     logout,
+    loading,
   };
 }
