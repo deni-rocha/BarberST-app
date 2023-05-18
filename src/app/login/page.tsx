@@ -18,8 +18,8 @@ export default function Login() {
   const [loadingLogin, setLoadingLogin] = useState(false); // estado animação do login
   const { login } = useAuth(); // função para fazer o login
 
-  const refInputEmail = useRef<HTMLInputElement>(null);
-  const refInputSenha = useRef<HTMLInputElement>(null);
+  const refInputEmail = useRef<HTMLInputElement>(null); // referência para o input de email
+  const refInputSenha = useRef<HTMLInputElement>(null); // referência para o input de senha
 
   // salvar estado ao digitar no input
   function inputChange(e: ChangeEvent<HTMLInputElement>) {
@@ -60,11 +60,16 @@ export default function Login() {
 
     setLoadingLogin(true); // ativar animação
 
-    const res = await login!(form.email, form.senha);
+    const res = await login!(form.email, form.senha); // chama função para logar
 
     if (!res.success) {
+      // parar o loader
       setLoadingLogin(false);
+
+      // reseta o campo de senha
       setForm({ ...form, senha: "" });
+
+      // mostrar popup de erro com mensagem de resposta da API
       Swal.fire({
         position: "top-end",
         icon: "error",
