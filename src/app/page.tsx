@@ -3,9 +3,28 @@
 import { useAuth } from "@/Context/AuthContext";
 import Image from "next/image";
 import GifLoading from "@/public/gifs/Pulse-1s-200px.gif";
+import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { loading, logout } = useAuth();
+  const { usuario, loading, logout } = useAuth();
+
+  useEffect(() => {
+    // verifica se usuário está conectado
+    if (!loading && usuario) {
+      // mostra popup de sucesso com mensagem de "login efetuado"
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "conectado",
+        showConfirmButton: false,
+        timer: 1500,
+        customClass: {
+          popup: "popupStyle",
+        },
+      });
+    }
+  });
 
   if (loading) {
     return (
