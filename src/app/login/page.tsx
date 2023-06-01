@@ -10,6 +10,8 @@ import { IoEyeSharp } from "react-icons/io5";
 
 import GifLoader from "@/public/gifs/Reload-1s-200px.gif";
 import Swal from "sweetalert2";
+import { Input } from "@/components/atoms/Input";
+import Link from "next/link";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", senha: "" }); // formulário para login
@@ -85,7 +87,7 @@ export default function Login() {
 
   return (
     <div className="absolute w-full h-full p-4">
-      <header className="flex justify-between mt-12 md:justify-around">
+      <header className="flex justify-between gap-8 mt-12 md:justify-around">
         <section className="w-[240px] h-[100px]">
           <Image src={BaberStLogo} alt="logo-barberSt" />
         </section>
@@ -117,23 +119,21 @@ export default function Login() {
           <div className="w-[300px] h-[300px] flex flex-col gap-8 items-center py-4 mx-auto ">
             <h2 className="text-xl font-bold text-bgPrimary">Entrar</h2>
             <form className="w-[255px] space-y-4" onSubmit={(e) => submit(e)}>
-              <input
+              <Input
                 ref={refInputEmail}
                 name="email"
                 value={form.email}
                 onChange={inputChange}
                 type="text"
                 placeholder="e-mail"
-                className="w-full h-[40px] rounded-3xl pl-6 outline-none drop-shadow-md placeholder:opacity-70"
               />
               <div className="flex flex-col relative">
-                <input
+                <Input
                   ref={refInputSenha}
                   onChange={inputChange}
                   name="senha"
                   placeholder="senha"
                   type={hiddenPass ? "password" : "text"}
-                  className="w-full h-[40px] rounded-3xl pl-6 outline-none drop-shadow-md placeholder:opacity-70"
                 />
                 <div
                   className="absolute top-3 self-end mr-3 opacity-50 cursor-pointer"
@@ -147,13 +147,18 @@ export default function Login() {
               </div>
 
               <button
-                onClick={(e) => e}
                 type="submit"
                 className="bottom-12 absolute focus:bg-opacity-75 hover:opacity-75 w-[255px] h-[40px] bg-bgPrimary rounded-3xl outline-none text-white"
               >
                 Login
               </button>
             </form>
+            <Link
+              href="/registrar"
+              className="absolute bottom-5 text-sm text-bgSecondary cursor-pointer"
+            >
+              ainda não tenho conta
+            </Link>
           </div>
         )}
       </div>
