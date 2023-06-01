@@ -89,6 +89,11 @@ function useProvideAuth() {
       setLoading(false);
     }, 600);
 
+    const rotaPublica = "/registrar";
+
+    // essa rota pode ser acessada mesmo que o usuário não esteja autenticado
+    if (location.pathname === rotaPublica) return router.push(rotaPublica);
+
     if (!usuario) {
       // vai para a página de login caso não haja um usuário
       router.push("/login");
