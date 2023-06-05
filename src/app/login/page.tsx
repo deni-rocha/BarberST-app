@@ -8,7 +8,7 @@ import { useAuth } from "@/Context/AuthContext";
 import { BsFillEyeSlashFill } from "react-icons/bs";
 import { IoEyeSharp } from "react-icons/io5";
 
-import GifLoader from "@/public/gifs/Reload-1s-200px.gif";
+import GifLoader from "@/public/gifs/Eclipse-1s-200px.gif";
 import Swal from "sweetalert2";
 import { Input } from "@/components/atoms/Input";
 import Link from "next/link";
@@ -113,7 +113,7 @@ export default function Login() {
           <Image
             src={GifLoader}
             alt="loader"
-            className="w-[80px] self-center mx-auto"
+            className="w-[150px] h-[150px] self-center mx-auto"
           />
         ) : (
           <div className="w-[300px] h-[300px] flex flex-col gap-8 items-center py-4 mx-auto ">
