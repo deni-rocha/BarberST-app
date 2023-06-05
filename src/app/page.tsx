@@ -5,8 +5,9 @@ import Image from "next/image";
 import GifLoading from "@/public/gifs/Pulse-1s-200px.gif";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
+import Home from "./Home";
 
-export default function Home() {
+export default function Page() {
   const { usuario, loading, logout } = useAuth();
 
   useEffect(() => {
@@ -36,19 +37,7 @@ export default function Home() {
         />
       </div>
     );
+  } else {
+    return <Home />;
   }
-
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>
-        Início index page,{" "}
-        <button
-          className="bg-bgSecondary text-white p-2 rounded-md"
-          onClick={() => logout!()}
-        >
-          sair
-        </button>
-      </h1>
-    </main>
-  );
 }
