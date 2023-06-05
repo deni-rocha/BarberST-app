@@ -1,5 +1,6 @@
 "use client";
 
+import api from "@/api";
 import axios, { AxiosError } from "axios";
 import { getCookie, deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
@@ -38,12 +39,12 @@ const initialAuth: authType = {
 
 const authContext = createContext<authType>(initialAuth);
 
-type User = {
+export interface User {
   _id: string;
   email: string;
   nome: string;
   permissao: string;
-};
+}
 
 // Envolver os componentes nesse Provider component e acessar o objeto de autenticação
 // ... desse modo qualquer child (filho) pode chamar o useAuth
@@ -69,17 +70,19 @@ function useProvideAuth() {
   useEffect(() => {
     const initialAuthUser = getCookie("user");
     const initialAuthToken = getCookie("token");
+
     if (initialAuthUser && initialAuthToken) {
       const initUser = JSON.parse(initialAuthUser as string);
-      const initToken = JSON.parse(initialAuthUser as string);
+
       setUsuario(initUser);
-      setToken(initToken);
+      setToken(initialAuthToken as string);
     }
   }, []);
 
   useEffect(() => {
     setCookie("user", usuario);
     setCookie("token", token);
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }, [usuario, token]);
 
   // mudar rota para login caso o usuário não exista
@@ -168,6 +171,7 @@ function useProvideAuth() {
       };
 
       const token = loginResponse.token;
+
       setUsuario(user);
       setToken(token);
       return {
@@ -179,7 +183,6 @@ function useProvideAuth() {
 
       const message = error.response?.data.message;
 
-      console.log(error);
       return {
         success: false,
         message: message as string,
