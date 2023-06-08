@@ -13,3 +13,21 @@
 .popupStyle {
   width: 300px !important;
 }
+
+/* estilo do scroll horizontal */
+.divScroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.divScroll::-webkit-scrollbar-thumb,
+.divScroll::-webkit-scrollbar-track {
+  border-radius: 92px;
+}
+
+.divScroll::-webkit-scrollbar-thumb {
+  background: #dd424cff;
+}
+
+.divScroll::-webkit-scrollbar-track {
+  background: silver;
+}
