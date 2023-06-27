@@ -1,16 +1,14 @@
 "use client";
 
-import api from "@/api";
+import api from "@/functions/api/base";
 import axios, { AxiosError } from "axios";
 import { getCookie, deleteCookie, setCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useContext, createContext } from "react";
 
 type authType = {
   message: string;
   token: null | string;
   usuario: null | User;
-  loading?: boolean;
   register?: (
     email: string,
     fullname: string,
@@ -63,10 +61,6 @@ function useProvideAuth() {
   const [usuario, setUsuario] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
-  const [loading, setLoading] = useState(true); // para exibir página de carregamento
-
-  const router = useRouter();
-
   useEffect(() => {
     const initialAuthUser = getCookie("user");
     const initialAuthToken = getCookie("token");
@@ -84,27 +78,6 @@ function useProvideAuth() {
     setCookie("token", token);
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }, [usuario, token]);
-
-  // mudar rota para login caso o usuário não exista
-  useEffect(() => {
-    // tempo de 500ms antes de atualizar a tela, para evitar conflito de componentes mudando bruscamente de tela
-    setTimeout(() => {
-      setLoading(false);
-    }, 600);
-
-    const rotaPublica = "/registrar";
-
-    // essa rota pode ser acessada mesmo que o usuário não esteja autenticado
-    if (location.pathname === rotaPublica) return router.push(rotaPublica);
-
-    if (!usuario) {
-      // vai para a página de login caso não haja um usuário
-      router.push("/login");
-    } else {
-      // caso exista usuário vai para página principal
-      router.push("/");
-    }
-  }, [usuario, router]);
 
   const register = async (
     email: string,
@@ -205,6 +178,5 @@ function useProvideAuth() {
     register,
     login,
     logout,
-    loading,
   };
 }
