@@ -1,10 +1,10 @@
 import { AxiosError } from "axios";
-import api from ".";
+import api from "../base";
 
-const horario = {
-  datasDisponiveis: async () => {
+export const horario = {
+  datasDisponiveis: async (id: string) => {
     try {
-      const res = await api.get("/horario/datas-disponiveis");
+      const res = await api.get(`/horario/datas-disponiveis/${id}`);
 
       return res.data;
     } catch (err) {
@@ -14,5 +14,3 @@ const horario = {
     }
   },
 };
-
-export default horario;
