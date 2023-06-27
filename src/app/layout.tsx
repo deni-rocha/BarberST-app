@@ -1,7 +1,5 @@
-"use client";
-
+import { UserProviders } from "@/providers/UserProviders";
 import "./globals.css";
-import { ProvideAuth } from "@/Context/AuthContext";
 
 export const metadata = {
   title: "Barber-St",
@@ -16,9 +14,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <link rel="shortcut icon" href="/icons/icon.svg" type="image/x-icon" />
-      <ProvideAuth>
-        <body>{children}</body>
-      </ProvideAuth>
+      <body>
+        <UserProviders>{children}</UserProviders>
+      </body>
     </html>
   );
 }
