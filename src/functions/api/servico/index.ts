@@ -11,7 +11,8 @@ export const servico = {
     } catch (err) {
       const error = err as AxiosError;
 
-      return error.response;
+      console.log(error.response?.data);
+      return null;
     }
   },
 };

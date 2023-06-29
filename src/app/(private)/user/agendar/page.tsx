@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/Context/AuthContext";
-import horarioApi from "@/functions/api/horario";
+import { horario } from "@/functions/api";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -91,7 +91,7 @@ export default function UserAgendarPage() {
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await horarioApi.datasDisponiveis();
+      const res = await horario.datasDisponiveis("");
 
       setDatasDisponiveis(res);
     };

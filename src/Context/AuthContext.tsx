@@ -2,7 +2,7 @@
 
 import api from "@/functions/api/base";
 import axios, { AxiosError } from "axios";
-import { getCookie, deleteCookie, setCookie } from "cookies-next";
+import { getCookie, deleteCookie, setCookie, hasCookie } from "cookies-next";
 import React, { useState, useEffect, useContext, createContext } from "react";
 
 type authType = {
@@ -58,25 +58,26 @@ export const useAuth = () => {
 
 // Provider hook que cria o objeto de autenticação
 function useProvideAuth() {
-  const [usuario, setUsuario] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  // obtém o token armazenado no cookie
+  const getToken = getCookie("token")?.toString();
+
+  // obtém o token armazenado no cookie
+  const getUser = getCookie("user")?.toString();
+
+  const [usuario, setUsuario] = useState<User | null>(
+    getToken ? JSON.parse(getUser as string) : null
+  );
+  const [token, setToken] = useState<string | null>(getToken ? getToken : null);
 
   useEffect(() => {
-    const initialAuthUser = getCookie("user");
-    const initialAuthToken = getCookie("token");
+    if (usuario === null) return;
 
-    if (initialAuthUser && initialAuthToken) {
-      const initUser = JSON.parse(initialAuthUser as string);
+    // atualiza o token das requisições
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      setUsuario(initUser);
-      setToken(initialAuthToken as string);
-    }
-  }, []);
-
-  useEffect(() => {
+    // atualiza/cria os cookies, quando feito um novo login
     setCookie("user", usuario);
     setCookie("token", token);
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }, [usuario, token]);
 
   const register = async (

@@ -1,7 +1,8 @@
-import { getCookie } from "cookies-next";
+import { cookies } from "next/headers";
 
 export const checkUserAuthenticated = () => {
-  const user = getCookie("user");
+  const cookie = cookies();
+  const user = cookie.has("user");
 
-  return !!user;
+  return user;
 };

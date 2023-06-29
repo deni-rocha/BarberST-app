@@ -11,7 +11,7 @@ export default function RegisterPage() {
       email: "",
       senha: "",
       confirmarSenha: "",
-      sexo: "",
+      sexo: "F",
     },
     validate: (e) => validateRegister(e),
     onSubmit: (values) => {
@@ -109,9 +109,7 @@ export default function RegisterPage() {
                 onBlur={formik.handleBlur}
               >
                 <option value="M">Masculino</option>
-                <option value="F" selected>
-                  Feminino
-                </option>
+                <option value="F">Feminino</option>
               </select>
               {formik.errors.sexo ? <div>{formik.errors.sexo}</div> : null}
             </div>

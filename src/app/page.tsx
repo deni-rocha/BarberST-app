@@ -1,9 +1,10 @@
-import UserLoginPage from "./user/login/page";
+import Link from "next/link";
 
-export default function RootPage() {
+export default function Page() {
   return (
-    <>
-      <UserLoginPage />
-    </>
+    <div>
+      <h3>Siga para página de </h3>
+      <Link href="/user/login">Login</Link>
+    </div>
   );
 }

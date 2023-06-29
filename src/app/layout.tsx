@@ -1,21 +1,23 @@
-import { UserProviders } from "@/providers/UserProviders";
 import "./globals.css";
+import { Metadata } from "next";
 
-export const metadata = {
+import { ProvideAuth } from "@/Context/AuthContext";
+
+export const metadata: Metadata = {
   title: "Barber-St",
   description: "Site da barbearia St",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-BR">
       <link rel="shortcut icon" href="/icons/icon.svg" type="image/x-icon" />
       <body>
-        <UserProviders>{children}</UserProviders>
+        <ProvideAuth>{children}</ProvideAuth>
       </body>
     </html>
   );
